@@ -20,7 +20,7 @@ const allowedOrigins = [
 ];
 
 const CLIENT_ORIGINS = [
-  "https://ayush-registration-portal.vercel.app","http://localhost:3000"   // React dev server
+  "https://ayush-registration-portal.vercel.app","http://localhost:3000" ,"https://ayush-registration-portal-ju7n.vercel.app"  // React dev server
   // add other origins if needed, e.g. deployed frontend
 ];
 
