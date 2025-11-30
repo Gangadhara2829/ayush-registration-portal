@@ -1,13 +1,11 @@
-// ----------------------------
-// AYUSH PORTAL BACKEND SERVER
-// ----------------------------
+// backend/server.js
 
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const http = require('http');
-const { Server } = require("socket.io");
+const { Server } = require('socket.io');
 const path = require('path');
 
 const Message = require('./models/Message');
@@ -16,127 +14,116 @@ const { getAiResponse } = require('./aiLogic');
 const app = express();
 const server = http.createServer(app);
 
-// ----------------------------------------------
-// ✅ FINAL SINGLE CORS ORIGINS (USE ONLY THIS)
-// ----------------------------------------------
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://ayush-registration-portal.vercel.app",       // Production Frontend
-  "https://ayush-registration-portal-ju7n.vercel.app"   // Preview Frontend
-];
+// ---------------- CORS ORIGINS ----------------
+const CLIENT_ORIGINS = [
+  'http://localhost:3000',                               // local dev
+  'https://ayush-registration-portal.vercel.app',       // main Vercel URL
+  'https://ayush-registration-portal-ju7n.vercel.app',  // preview / alt URL
+].filter(Boolean);
 
-// ----------------------------------------------
-// ✅ EXPRESS CORS CONFIG
-// ----------------------------------------------
-const corsOptions = {
-  origin(origin, callback) {
-    if (!origin) return callback(null, true); // allow mobile apps / Postman etc.
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(new Error("CORS blocked: " + origin));
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // handle preflight
+// ------------- Express middleware -------------
+app.use(
+  cors({
+    origin: CLIENT_ORIGINS,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'x-auth-token', 'Authorization'],
+  })
+);
 
 app.use(express.json());
 
-// ----------------------------------------------
-// Serve static files (uploads folder)
-// ----------------------------------------------
+// Handle preflight explicitly (helps some browsers)
+app.options('*', cors());
+
+// Serve static files from the 'uploads' folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// ----------------------------------------------
-// MongoDB Connection
-// ----------------------------------------------
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✔ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB error:', err));
+// Simple health check route
+app.get('/', (req, res) => {
+  res.send('AYUSH portal backend is running ✅');
+});
 
-// ----------------------------------------------
-// API Routes
-// ----------------------------------------------
+// ------------- MongoDB Connection -------------
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected successfully.'))
+  .catch((err) => console.error('MongoDB connection error:', err));
+
+// ----------------- API Routes -----------------
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/dashboard', require('./routes/dashboard'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/messages', require('./routes/messages'));
 
-// ----------------------------------------------
-// SOCKET.IO with CORS
-// ----------------------------------------------
+// ----------------- Socket.IO ------------------
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
-    methods: ["GET", "POST"],
-    credentials: true
-  }
+    origin: CLIENT_ORIGINS,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'x-auth-token', 'Authorization'],
+  },
 });
 
-app.set("socketio", io);
+app.set('socketio', io);
 
-io.on("connection", (socket) => {
-  console.log("🔌 WebSocket connected:", socket.id);
+io.on('connection', (socket) => {
+  console.log('🔌 WebSocket connected:', socket.id);
 
-  // join startup-specific chat room
-  socket.on("joinRoom", (startupId) => {
+  // Join room for admin/startup chat
+  socket.on('joinRoom', (startupId) => {
     socket.join(startupId);
     console.log(`User ${socket.id} joined room ${startupId}`);
   });
 
-  // Startup ↔ Admin Chat
-  socket.on("sendMessage", async (data, callback) => {
+  // Admin <-> Startup chat messages
+  socket.on('sendMessage', async (data, callback) => {
     const { startupId, sender, content } = data;
 
     if (!startupId || !sender || !content) {
-      if (callback) callback({ error: "Missing required fields" });
+      if (callback) callback({ error: 'Missing data' });
       return;
     }
 
     try {
       const message = new Message({ startupId, sender, content });
       await message.save();
-
-      io.to(startupId).emit("newMessage", message); // broadcast
-
+      io.to(startupId).emit('newMessage', message);
       if (callback) callback({ success: true, message });
-
     } catch (err) {
-      console.error("Error saving message:", err);
-      if (callback) callback({ error: "Server error saving message" });
+      console.error('Error saving message:', err);
+      if (callback) callback({ error: 'Server error saving message' });
     }
   });
 
-  // AI bot chat
-  socket.on("sendToBot", async (messageContent) => {
-    console.log("AI Message Received:", messageContent);
+  // AI helper bot (now offline/logic-only, no Gemini required)
+  socket.on('sendToBot', async (messageContent) => {
+    console.log(`AI Message Received from ${socket.id}:`, messageContent);
 
-    const aiResponse = await getAiResponse(messageContent);
-
-    setTimeout(() => {
-      socket.emit("botMessage", {
-        sender: "ai",
-        content: aiResponse
+    try {
+      const aiResponse = await getAiResponse(messageContent);
+      socket.emit('botMessage', {
+        sender: 'ai',
+        content: aiResponse,
       });
-    }, 1000);
+    } catch (err) {
+      console.error('AI bot error:', err);
+      socket.emit('botMessage', {
+        sender: 'ai',
+        content:
+          "I'm having trouble answering right now. Please try again later.",
+      });
+    }
   });
 
-  socket.on("disconnect", () => {
-    console.log("❌ WebSocket disconnected:", socket.id);
+  socket.on('disconnect', () => {
+    console.log('❌ WebSocket disconnected:', socket.id);
   });
 });
 
-// ----------------------------------------------
-// Start Server
-// ----------------------------------------------
+// ---------------- Start Server ----------------
 const PORT = process.env.PORT || 5000;
-
 server.listen(PORT, () => {
-  console.log(`🚀 Backend running on port ${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
