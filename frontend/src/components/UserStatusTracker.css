@@ -1,0 +1,78 @@
+.status-tracker-wrapper {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 20px 0;
+}
+
+.status-tracker-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+/* Connecting line background */
+.status-tracker-container::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 1;
+}
+
+.status-step {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  background: #fff; /* Masks line behind text */
+  padding: 0 10px;
+}
+
+.status-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  font-weight: bold;
+}
+
+.status-label {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* Active/Completed Styles */
+.status-step.completed .status-icon { background: #28a745; }
+.status-step.active .status-icon { background: #007bff; }
+.status-step.completed .status-label, 
+.status-step.active .status-label { color: #333; font-weight: bold; }
+
+/* Rejected Styles */
+.rejected .status-icon { background: #dc3545; }
+.rejected .status-label { color: #dc3545; }
+
+.timeline-logs {
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+.timeline-log-item {
+  list-style: none;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+.timeline-log-item strong { display: block; color: #555; }
+.timeline-log-item .date { color: #999; font-size: 0.8rem; }
+.timeline-log-item .comment { color: #666; font-style: italic; }

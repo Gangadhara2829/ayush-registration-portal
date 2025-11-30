@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.91032ae7.css",
+    "main.js": "/static/js/main.fec866a0.js",
+    "static/media/hero-background.jpg": "/static/media/hero-background.b48713ef39b98111cc5d.jpg",
+    "static/media/modi-placeholder.png": "/static/media/modi-placeholder.3de2b5935949956782f2.png",
+    "static/media/ayush-logo.png": "/static/media/ayush-logo.ad525e767c2df6dc7c8a.png",
+    "index.html": "/index.html",
+    "main.91032ae7.css.map": "/static/css/main.91032ae7.css.map",
+    "main.fec866a0.js.map": "/static/js/main.fec866a0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.91032ae7.css",
+    "static/js/main.fec866a0.js"
+  ]
+}

@@ -1,0 +1,825 @@
+/* General Body and App Styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f4f4f4;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+/* Header Styles */
+.header {
+  background-color: #2e198f;
+  padding: 15px 30px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header-logo {
+  height: 50px;
+  margin-right: 15px;
+}
+
+.header-title h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #f7f7f7;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+}
+
+.header-nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.logout-btn {
+  margin-left: 20px;
+  background-color: #ff6f00;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Homepage Styles */
+.home-container {
+  text-align: center;
+}
+
+.hero-section {
+  color: white;
+  padding: 80px 20px;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+
+.hero-btn {
+  background-color: #ff6f00;
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.hero-btn:hover {
+  background-color: #e66000;
+}
+
+.events-section {
+  padding: 50px 20px;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.event-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.event-date {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.event-link {
+  color: #2e198f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.mann-ki-baat-section {
+  padding: 50px 20px;
+  color: white;
+}
+
+.mann-ki-baat-title {
+  font-size: 2.5rem;
+  margin: 10px 0;
+}
+
+
+/* Login & Register Page Styles */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  min-height: 80vh;
+}
+
+.auth-card {
+  display: flex;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 900px;
+}
+
+.auth-form-section, .auth-info-section {
+  padding: 40px;
+  flex: 1;
+}
+
+.auth-form-section {
+  background-color: #e9ecef;
+  text-align: center;
+}
+
+.auth-form-section h2 {
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff6f00;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.auth-link, .auth-switch-link {
+  display: block;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.auth-info-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.auth-info-section img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.auth-info-section .quote {
+  font-style: italic;
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.auth-info-section .quote-author {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Register Form Specifics */
+.registration-form h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+.registration-form {
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 40px auto;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+.form-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.full-width {
+  grid-column: 1 / -1;
+}
+.file-upload-section {
+  grid-column: 1 / -1;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  margin-top: 10px;
+}
+.file-upload-section h3 {
+  margin-bottom: 15px;
+}
+
+.form-error {
+  color: #D8000C; 
+  background-color: #FFD2D2;
+  border: 1px solid #D8000C;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.form-success {
+  color: #270;
+  background-color: #DFF2BF;
+  border: 1px solid #4F8A10;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+  display: flex;
+  padding: 30px;
+  gap: 30px;
+}
+
+.dashboard-sidebar {
+  flex: 0 0 250px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  align-self: flex-start;
+}
+.dashboard-sidebar-nav a {
+  display: block;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.dashboard-sidebar-nav a:hover, .dashboard-sidebar-nav a.active {
+  background-color: #e9ecef;
+}
+
+.dashboard-main {
+  flex-grow: 1;
+}
+
+.profile-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+.profile-header h2 { margin: 0; }
+.edit-btn {
+  padding: 8px 16px;
+  border: 1px solid #ff6f00;
+  background-color: transparent;
+  color: #ff6f00;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profile-details p {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  margin: 10px 0;
+  align-items: center;
+}
+.profile-details p strong {
+  color: #555;
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #343a40;
+  color: white;
+  padding: 20px 40px;
+  text-align: center;
+}
+
+/* --- STYLES FOR REAL-TIME STATUS PAGE --- */
+.status-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.status-container h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.status-container p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.status-timeline {
+  position: relative;
+  padding-left: 30px;
+  border-left: 3px solid #e9ecef;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -46px; /* Adjust to center on the border */
+  top: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  border: 3px solid #fff;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.timeline-content h3 {
+  margin: 0 0 5px 0;
+  color: #666;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.timeline-content p {
+  margin: 0;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* Completed Step Styles */
+.timeline-item.completed .timeline-dot {
+  background-color: #28a745; /* Green for completed */
+  transform: scale(1.1);
+}
+/* Checkmark effect */
+.timeline-item.completed .timeline-dot::after {
+  content: '✓';
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.timeline-item.completed .timeline-content h3 {
+  color: #28a745;
+}
+
+/* --- STYLES FOR PROFILE EDIT MODE --- */
+.profile-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 10px;
+  font-size: 1rem;
+  width: 60%;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save-btn, .cancel-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+
+/* --- STYLES FOR ADMIN DASHBOARD --- */
+.admin-dashboard {
+  display: flex;
+  min-height: 80vh;
+  background-color: #fff;
+}
+
+.app-list-panel {
+  flex: 0 0 350px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-right: 1px solid #dee2e6;
+  overflow-y: auto;
+}
+
+.app-list-panel h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.app-list-item {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.app-list-item:hover {
+  background-color: #e9ecef;
+}
+.app-list-item.selected {
+  background-color: #2e198f;
+  color: white;
+  border-color: #2e198f;
+}
+
+.app-detail-panel {
+  flex-grow: 1;
+  padding: 40px;
+}
+
+.app-detail-panel h2 {
+  margin-top: 0;
+}
+
+.verification-checklist {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.checklist-item input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin-right: 15px;
+  cursor: pointer;
+  accent-color: #28a745;
+}
+
+.checklist-item label {
+  cursor: pointer;
+}
+
+/* --- STYLES FOR DOCUMENT SECTION IN ADMIN DASHBOARD --- */
+.document-section {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.document-section h3, .document-section h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.document-section a {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+.document-section a:hover {
+  text-decoration: underline;
+}
+
+.document-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* ===========================
+   MOBILE & TABLET RESPONSIVE
+   =========================== */
+
+/* Medium screens: tablets, small laptops */
+@media (max-width: 992px) {
+  .header {
+    padding: 12px 16px;
+  }
+
+  .header-title h1 {
+    font-size: 1.2rem;
+  }
+
+  .hero-content h2 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .dashboard-container {
+    padding: 20px;
+  }
+
+  .app-detail-panel {
+    padding: 24px;
+  }
+}
+
+/* Small screens: phones */
+@media (max-width: 768px) {
+  /* ----- HEADER ----- */
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 16px;
+  }
+
+  .header-brand {
+    margin-bottom: 4px;
+  }
+
+  .header-logo {
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .header-title h1 {
+    font-size: 1.1rem;
+  }
+
+  .header-title p {
+    font-size: 0.8rem;
+  }
+
+  .header-nav {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .header-nav a,
+  .logout-btn {
+    margin-left: 0;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  /* ----- AUTH PAGES (LOGIN / REGISTER) ----- */
+  .auth-container {
+    padding: 20px 10px;
+    min-height: auto;
+  }
+
+  .auth-card {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .auth-form-section,
+  .auth-info-section {
+    padding: 20px;
+  }
+
+  .auth-info-section img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+  }
+
+  /* You can comment this if you want form first:
+     .auth-info-section { order: -1; } */
+  
+  /* Registration form grid -> 1 column */
+  .registration-form {
+    margin: 20px 10px;
+    padding: 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width,
+  .file-upload-section {
+    grid-column: 1 / -1;
+  }
+
+  /* ----- HOMEPAGE ----- */
+  .hero-section {
+    padding: 60px 16px;
+  }
+
+  .hero-content h2 {
+    font-size: 1.7rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .events-section,
+  .mann-ki-baat-section {
+    padding: 30px 16px;
+  }
+
+  /* ----- DASHBOARD ----- */
+  .dashboard-container {
+    flex-direction: column;
+    padding: 20px 12px;
+  }
+
+  .dashboard-sidebar {
+    flex: 1 1 auto;
+    margin-bottom: 16px;
+  }
+
+  .profile-card {
+    padding: 20px;
+  }
+
+  .profile-details p {
+    grid-template-columns: 120px 1fr;
+    font-size: 0.9rem;
+  }
+
+  .profile-input {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+
+  /* ----- STATUS PAGE ----- */
+  .status-container {
+    margin: 20px 10px;
+    padding: 20px;
+  }
+
+  .status-timeline {
+    padding-left: 20px;
+  }
+
+  .timeline-dot {
+    left: -34px;
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ----- ADMIN DASHBOARD ----- */
+  .admin-dashboard {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .app-list-panel {
+    flex: 1 1 auto;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+    max-height: 220px;
+    padding: 16px;
+  }
+
+  .app-detail-panel {
+    padding: 20px 12px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .hero-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .auth-form-section h2 {
+    font-size: 1.2rem;
+  }
+
+  .auth-form input,
+  .auth-btn {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  .app-list-item {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .checklist-item {
+    font-size: 0.95rem;
+  }
+
+  .footer {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+}
