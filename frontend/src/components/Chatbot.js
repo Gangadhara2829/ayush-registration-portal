@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
+
 const chatStyles = {
   // Styles for the entire chatbot container (closed button + open window)
   container: {

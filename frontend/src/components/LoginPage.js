@@ -4,6 +4,8 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { GoogleLogin } from '@react-oauth/google';
 import modiImage from '../modi-placeholder.png';
+import { API_BASE_URL } from '../apiConfig';
+
 
 const LoginPage = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -19,7 +21,9 @@ const LoginPage = ({ onLogin }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://ayush-portal-backend.onrender.com/api/auth/login', formData);
+      
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, formData);
+
       handleAuthSuccess(res.data.token);
     } catch (err) {
       setError(
@@ -31,9 +35,8 @@ const LoginPage = ({ onLogin }) => {
   // Google login success
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post('https://ayush-portal-backend.onrender.com/api/auth/google', {
-        token: credentialResponse.credential
-      });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/google`, {
+        token: credentialResponse.credential,});
       handleAuthSuccess(res.data.token);
     } catch (err) {
       console.error('Google Login Error:', err);
