@@ -1,130 +1,130 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// frontend/src/components/DashboardPage.js
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
+import MyApplicationPage from './MyApplicationPage';
+import StatusPage from './StatusPage';
 
 const DashboardPage = () => {
-  const navigate = useNavigate();
-  const [startup, setStartup] = useState(null);
+  const [activeTab, setActiveTab] = useState('profile');
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  // State for handling the edit mode
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    startupName: '',
-    sector: '',
-    founderName: '',
-    contactNumber: '',
-  });
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchStartupData = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
+  const fetchProfile = async () => {
+    setLoading(true);
+    setError('');
 
-      try {
-        const config = { headers: { 'x-auth-token': token } };
-        const res = await axios.get('https://ayush-portal-backend.onrender.com', config);
-        setStartup(res.data);
-        // Pre-fill the form data with the fetched profile information
-        setFormData({
-            startupName: res.data.startupName,
-            sector: res.data.sector,
-            founderName: res.data.founderName,
-            contactNumber: res.data.contactNumber,
-        });
-      } catch (err) {
-        console.error('Failed to fetch user data:', err);
-        localStorage.removeItem('token');
-        navigate('/login');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStartupData();
-  }, [navigate]);
-
-  // Update form state as the user types in the input fields
-  const handleInputChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Handle the save action
-  const handleSave = async () => {
-    const token = localStorage.getItem('token');
     try {
-      const config = { headers: { 'x-auth-token': token, 'Content-Type': 'application/json' } };
-      const body = JSON.stringify(formData);
-      const res = await axios.put('http://localhost:5000/api/dashboard/me', body, config);
-      
-      setStartup(res.data); // Update the view with the newly saved data
-      setIsEditing(false); // Exit edit mode
+      const token = localStorage.getItem('token');
+
+      const res = await axios.get(
+        `${API_BASE_URL}/api/dashboard/profile`,
+        {
+          headers: {
+            'x-auth-token': token,
+          },
+        }
+      );
+
+      setProfile(res.data);
     } catch (err) {
-      console.error('Failed to update profile:', err);
-      // You can add a user-facing error message here
+      console.error('Error fetching profile:', err);
+      setError('Failed to load profile. Please try again later.');
+      setProfile(null);
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) {
-    return <div>Loading your profile...</div>;
-  }
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
-  if (!startup) {
-    return <div>Could not load profile. Please try logging in again.</div>;
-  }
+  const renderContent = () => {
+    if (loading) return <p>Loading profile...</p>;
+    if (error) return <p style={{ color: 'red' }}>{error}</p>;
+
+    if (!profile) {
+      return <p>No profile data found.</p>;
+    }
+
+    if (activeTab === 'profile') {
+      return (
+        <>
+          <h2>My Profile</h2>
+          <p>
+            <strong>Startup Name:</strong>{' '}
+            {profile.startupName || '-'}
+          </p>
+          <p>
+            <strong>Sector:</strong> {profile.sector || '-'}
+          </p>
+          <p>
+            <strong>Founder Name:</strong>{' '}
+            {profile.founderName || '-'}
+          </p>
+          <p>
+            <strong>Contact Number:</strong>{' '}
+            {profile.contactNumber || '-'}
+          </p>
+          <p>
+            <strong>Email:</strong> {profile.email || '-'}
+          </p>
+        </>
+      );
+    }
+
+    if (activeTab === 'application') {
+      return <MyApplicationPage profile={profile} />;
+    }
+
+    if (activeTab === 'status') {
+      return <StatusPage profile={profile} />;
+    }
+
+    return null;
+  };
 
   return (
     <div className="dashboard-container">
       <aside className="dashboard-sidebar">
         <nav className="dashboard-sidebar-nav">
-          <Link to="/dashboard" className="active">My Profile</Link>
-          <Link to="/my-application">My Application</Link>
-          <Link to="/status">Status</Link>
+          <button
+            className={
+              'sidebar-link ' +
+              (activeTab === 'profile' ? 'active' : '')
+            }
+            onClick={() => setActiveTab('profile')}
+          >
+            My Profile
+          </button>
+          <button
+            className={
+              'sidebar-link ' +
+              (activeTab === 'application' ? 'active' : '')
+            }
+            onClick={() => setActiveTab('application')}
+          >
+            My Application
+          </button>
+          <button
+            className={
+              'sidebar-link ' +
+              (activeTab === 'status' ? 'active' : '')
+            }
+            onClick={() => setActiveTab('status')}
+          >
+            Status
+          </button>
         </nav>
       </aside>
+
       <main className="dashboard-main">
-        <div className="profile-card">
-          <div className="profile-header">
-            <h2>My Profile</h2>
-            {/* Conditionally render Edit/Save/Cancel buttons */}
-            {!isEditing ? (
-              <button className="edit-btn" onClick={() => setIsEditing(true)}>Edit</button>
-            ) : (
-              <div className="edit-actions">
-                <button className="save-btn" onClick={handleSave}>Save</button>
-                <button className="cancel-btn" onClick={() => setIsEditing(false)}>Cancel</button>
-              </div>
-            )}
-          </div>
-          <div className="profile-details">
-            {isEditing ? (
-              // EDIT MODE: Display input fields
-              <>
-                <p><strong>Startup Name:</strong><input type="text" name="startupName" value={formData.startupName} onChange={handleInputChange} className="profile-input" /></p>
-                <p><strong>Sector:</strong><input type="text" name="sector" value={formData.sector} onChange={handleInputChange} className="profile-input" /></p>
-                <p><strong>Founder Name:</strong><input type="text" name="founderName" value={formData.founderName} onChange={handleInputChange} className="profile-input" /></p>
-                <p><strong>Contact Number:</strong><input type="text" name="contactNumber" value={formData.contactNumber} onChange={handleInputChange} className="profile-input" /></p>
-                <p><strong>Email:</strong> {startup.email} <small>(cannot be changed)</small></p>
-              </>
-            ) : (
-              // VIEW MODE: Display static text
-              <>
-                <p><strong>Startup Name:</strong> {startup.startupName}</p>
-                <p><strong>Sector:</strong> {startup.sector}</p>
-                <p><strong>Founder Name:</strong> {startup.founderName}</p>
-                <p><strong>Contact Number:</strong> {startup.contactNumber}</p>
-                <p><strong>Email:</strong> {startup.email}</p>
-              </>
-            )}
-          </div>
-        </div>
+        <div className="profile-card">{renderContent()}</div>
       </main>
     </div>
   );
 };
 
 export default DashboardPage;
-
